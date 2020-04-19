@@ -1,0 +1,14 @@
+server:
+  port: 6060
+
+wopiDiscoveryURL: https://ffc-onenote.officeapps.live.com/hosting/discovery
+wopiDiscoveryXMLPath: WOPIDiscovery.xml
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    path: application.log
+  level:
+    com.pega: trace
