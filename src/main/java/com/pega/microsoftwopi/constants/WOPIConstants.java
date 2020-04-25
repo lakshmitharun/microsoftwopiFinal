@@ -10,9 +10,11 @@ public class WOPIConstants {
 
     public static final String EXCEPTION_APPLICATIONSTARTER_ADDDISCOVERYMAPTOSERVLETCONTEXT = "Exception in Class:ApplicationStarter Method:addDiscoveryMapToServletContext Exception: ";
 
-    public static final String EXCEPTION_MICROSOFTWOPIAPPLICATION_MAIN = "Exception in Class:MicrosoftwopiApplication Method:main Exception: ";;
+    public static final String EXCEPTION_MICROSOFTWOPIAPPLICATION_MAIN = "Exception in Class:MicrosoftwopiApplication Method:main Exception: ";
 
     public static final String INFO_WOPIDISCOVERYXML_GETDISCOVERYXML = "WOPIDiscovery Object: ";
     public static final String INFO_WOPIDISCOVERYXML_PROCESSACTIONS = "ActionMap Object: ";
     public static final String INFO_WOPIDISCOVERYXML_GETESSENTIALMAPFROMXMLOBJECT = "Discovery Map: " ;
+
+    public static final String REST_END_POINT_GETFILEINFO = "/files/{name}";
 }

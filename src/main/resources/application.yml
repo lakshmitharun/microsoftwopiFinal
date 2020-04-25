@@ -11,4 +11,4 @@ logging:
   file:
     path: application.log
   level:
-    com.pega: trace
+    com.pega: error
