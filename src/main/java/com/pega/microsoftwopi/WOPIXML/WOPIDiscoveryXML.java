@@ -20,14 +20,19 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class WOPIDiscoveryXML {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WOPIDiscoveryXML.class);
 
+    private final Environment env;
+
     @Autowired
-    Environment env;
+    public WOPIDiscoveryXML(Environment env) {
+        this.env = env;
+    }
 
     public WOPIDiscovery getDiscoveryXML() {
         WOPIDiscovery WOPIDiscovery = null;
@@ -35,7 +40,7 @@ public class WOPIDiscoveryXML {
             final String xmlPath = env.getProperty("wopiDiscoveryXMLPath");
             ObjectMapper objectMapper = new XmlMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             WOPIDiscovery = objectMapper.readValue(
-                    StringUtils.toEncodedString(Files.readAllBytes(Paths.get(xmlPath)), StandardCharsets.UTF_8),
+                    StringUtils.toEncodedString(Files.readAllBytes(Paths.get(Objects.requireNonNull(xmlPath))), StandardCharsets.UTF_8),
                     WOPIDiscovery.class);
             LOGGER.info(WOPIConstants.INFO_WOPIDISCOVERYXML_GETDISCOVERYXML + WOPIDiscovery.toString());
         } catch (Exception e) {

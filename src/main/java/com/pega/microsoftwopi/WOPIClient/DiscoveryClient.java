@@ -8,20 +8,25 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
+import java.util.Objects;
 
 @Service
 public class DiscoveryClient {
 
-    @Autowired
-    Environment env;
+    private final Environment env;
 
-    public void getDiscoveryXML() {
+    @Autowired
+    public DiscoveryClient(Environment env) {
+        this.env = env;
+    }
+
+    private void getDiscoveryXML() {
         try {
             RestTemplate restTemplate = new RestTemplate();
             final String baseUrl = env.getProperty("wopiDiscoveryURL");
-            URI uri = new URI(baseUrl);
+            URI uri = new URI(Objects.requireNonNull(baseUrl));
             ResponseEntity<WOPIDiscovery> result = restTemplate.getForEntity(uri, WOPIDiscovery.class);
-            result.getBody();
+            WOPIDiscovery wopiDiscovery = result.getBody();
         } catch (Exception e) {
             System.out.print("Exception getting  Discovery XML" + e);
         }
