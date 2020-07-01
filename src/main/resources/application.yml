@@ -12,3 +12,8 @@ logging:
     path: application.log
   level:
     com.pega: error
+    reactor: error
+timeouts:
+  connectionTimeout: 100000
+  readTimeout: 200
+  writeTimeout: 200

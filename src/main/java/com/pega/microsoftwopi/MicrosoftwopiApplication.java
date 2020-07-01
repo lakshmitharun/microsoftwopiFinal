@@ -12,13 +12,13 @@ public class MicrosoftwopiApplication {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MicrosoftwopiApplication.class);
 
+
     public static void main(String[] args) {
         SpringApplication.run(MicrosoftwopiApplication.class, args);
         try {
             ApplicationStarter.addDiscoveryMapToServletContext();
         } catch (Exception e) {
             LOGGER.error(WOPIConstants.EXCEPTION_MICROSOFTWOPIAPPLICATION_MAIN + e);
-
         }
     }
 

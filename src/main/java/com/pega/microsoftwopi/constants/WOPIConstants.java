@@ -13,6 +13,15 @@ public class WOPIConstants {
     public static final String INFO_WOPIDISCOVERYXML_GETDISCOVERYXML = "WOPIDiscovery Object: ";
     public static final String INFO_WOPIDISCOVERYXML_PROCESSACTIONS = "ActionMap Object: ";
     public static final String INFO_WOPIDISCOVERYXML_GETESSENTIALMAPFROMXMLOBJECT = "Discovery Map: " ;
+    public static final String AUTHORIZATION = "Authorization" ;
+    public static final String BASIC = "Basic " ;
+    public static final String RESPONSE_STATUS = "Response Status  {} " ;
+    public static final String REQUEST_DETAILS = "Request details: {} {}" ;
+    public static final String HEADERS_LOG = "Name : {} , value : {}" ;
+
 
     public static final String REST_END_POINT_GETFILEINFO = "/files/{name}";
+
+    public static final String REST_END_POINT_PEGA_CHECK_FILE_INFO = "/checkFileInfo";
+
 }

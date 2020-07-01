@@ -25,6 +25,11 @@ public class CheckFileInfo {
     @JsonProperty("Version")
     private long version;
 
+    @JsonProperty("BreadcrumbFolderName")
+    private String breadcrumbFolderName;
+
+    @JsonProperty("BreadcrumbBrandName")
+    private String breadcrumbBrandName;
 
     @JsonProperty("AllowExternalMarketplace")
     private boolean allowExternalMarketplace = true;
@@ -40,6 +45,7 @@ public class CheckFileInfo {
 
     @JsonProperty("SupportsLocks")
     private boolean supportsLocks = false;
+
 
     public String getBaseFileName() {
         return baseFileName;
@@ -121,6 +127,22 @@ public class CheckFileInfo {
         UserId = userId;
     }
 
+    public String getBreadcrumbFolderName() {
+        return breadcrumbFolderName;
+    }
+
+    public void setBreadcrumbFolderName(String breadcrumbFolderName) {
+        this.breadcrumbFolderName = breadcrumbFolderName;
+    }
+
+    public String getBreadcrumbBrandName() {
+        return breadcrumbBrandName;
+    }
+
+    public void setBreadcrumbBrandName(String breadcrumbBrandName) {
+        this.breadcrumbBrandName = breadcrumbBrandName;
+    }
+
     @Override
     public String toString() {
         return "CheckFileInfo{" +
@@ -130,6 +152,8 @@ public class CheckFileInfo {
                 ", size=" + size +
                 ", sha256='" + sha256 + '\'' +
                 ", version=" + version +
+                ", breadcrumbFolderName='" + breadcrumbFolderName + '\'' +
+                ", breadcrumbBrandName='" + breadcrumbBrandName + '\'' +
                 ", allowExternalMarketplace=" + allowExternalMarketplace +
                 ", userCanWrite=" + userCanWrite +
                 ", supportsUpdate=" + supportsUpdate +
