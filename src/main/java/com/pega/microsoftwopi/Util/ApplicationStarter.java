@@ -2,13 +2,9 @@ package com.pega.microsoftwopi.Util;
 
 import com.pega.microsoftwopi.WOPIXML.WOPIDiscoveryXML;
 import com.pega.microsoftwopi.constants.WOPIConstants;
-import com.pega.microsoftwopi.pegaconnector.PegaClient;
-import com.pega.microsoftwopi.pojo.CheckFileInfo;
-import com.pega.microsoftwopi.pojo.CheckFileInfoReq;
-import com.pega.microsoftwopi.pojo.WOPIDiscovery;
+import com.pega.microsoftwopi.pojo.wopi.WOPIDiscovery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.Base64Utils;
 
 import javax.servlet.ServletContext;
 import java.util.Map;
@@ -26,10 +22,15 @@ public class ApplicationStarter {
             servletContext.setAttribute(WOPIConstants.DISCOVERY_XML_MAP, essentialMapFromXMLObject);
 
             //test code
-            PegaClient bean = BeanUtil.getBean(PegaClient.class);
+            /*PegaClient bean = BeanUtil.getBean(PegaClient.class);
             String basicAuthHeader =  WOPIConstants.BASIC + Base64Utils.encodeToString(("ponnl" + ":" + "rules").getBytes());
             CheckFileInfo checkFileInfo = bean.getCheckFileInfo("https://lab5367.lab.pega.com/prweb/api/wopi/1", basicAuthHeader, new CheckFileInfoReq("DATA-WORKATTACH-FILE OQW5SI-PERFTEST-WORK C-314!20200419T194330.312 GMT"));
+            FilecontentRes fileContent = bean.getFileContent("https://lab5367.lab.pega.com/prweb/api/wopi/1", basicAuthHeader, new CheckFileInfoReq("DATA-WORKATTACH-FILE OQW5SI-PERFTEST-WORK C-314!20200419T194330.312 GMT"));
+            PutFileContentRes from_intel = bean.putUpdatedFileContent("https://lab5367.lab.pega.com/prweb/api/wopi/1", basicAuthHeader, new PutFileContentReq("DATA-WORKATTACH-FILE OQW5SI-PERFTEST-WORK C-314!20200419T194330.312 GMT", "from intel"));
+
             LOGGER.error(checkFileInfo.toString());
+            LOGGER.error(fileContent.toString());
+            LOGGER.error(from_intel.toString());*/
         } catch (Exception e) {
             LOGGER.error(WOPIConstants.EXCEPTION_APPLICATIONSTARTER_ADDDISCOVERYMAPTOSERVLETCONTEXT + e);
         }

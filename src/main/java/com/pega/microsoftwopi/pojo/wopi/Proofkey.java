@@ -1,4 +1,4 @@
-package com.pega.microsoftwopi.pojo;
+package com.pega.microsoftwopi.pojo.wopi;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 

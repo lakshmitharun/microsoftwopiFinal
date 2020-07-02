@@ -9,19 +9,42 @@ public class WOPIConstants {
     public static final String EXCEPTION_WOPIDISCOVERYXML_GETESSENTIALMAPFROMXMLOBJECT = "Exception in Class:WOPIDiscoveryXML Method:getEssentialMapFromXMLObject Exception: ";
     public static final String EXCEPTION_APPLICATIONSTARTER_ADDDISCOVERYMAPTOSERVLETCONTEXT = "Exception in Class:ApplicationStarter Method:addDiscoveryMapToServletContext Exception: ";
     public static final String EXCEPTION_MICROSOFTWOPIAPPLICATION_MAIN = "Exception in Class:MicrosoftwopiApplication Method:main Exception: ";
+    public static final String EXCEPTION_WOPISERVICE_FILECONTENT = "Exception in Class:WOPIService Method:getFileContent Exception: ";
 
     public static final String INFO_WOPIDISCOVERYXML_GETDISCOVERYXML = "WOPIDiscovery Object: ";
     public static final String INFO_WOPIDISCOVERYXML_PROCESSACTIONS = "ActionMap Object: ";
     public static final String INFO_WOPIDISCOVERYXML_GETESSENTIALMAPFROMXMLOBJECT = "Discovery Map: " ;
+    public static final String INFO_WOPISERVICE_GETFILEINFO= "getFileInfo name :  " ;
+    public static final String INFO_WOPISERVICE_GETFILEINFO_EXCEPTION= "getFileInfo exception :  " ;
+    public static final String INFO_WOPISERVICE_FILECONTENT_NAME= "getFileContent name :  " ;
+    public static final String INFO_WOPISERVICE_FILECONTENT_FILECONTENT= "getFileContent filecontent :  " ;
+    public static final String INFO_WOPISERVICE_GETFILEINFO_CHECKFILEINFO= "getFileInfo checkfileinfo :  " ;
+
     public static final String AUTHORIZATION = "Authorization" ;
     public static final String BASIC = "Basic " ;
     public static final String RESPONSE_STATUS = "Response Status  {} " ;
     public static final String REQUEST_DETAILS = "Request details: {} {}" ;
     public static final String HEADERS_LOG = "Name : {} , value : {}" ;
+    public static final String ATTACHMENT_FILENAME = "attachment;filename=" ;
 
 
-    public static final String REST_END_POINT_GETFILEINFO = "/files/{name}";
+
+    public static final String REST_END_POINT_GET_FILE_INFO = "/files/{name}";
+    public static final String REST_END_POINT_GET_FILE_CONTENT = "/files/{name}/contents";
 
     public static final String REST_END_POINT_PEGA_CHECK_FILE_INFO = "/checkFileInfo";
+    public static final String REST_END_POINT_PEGA_FILE_CONTENT = "/fileContent";
+    public static final String REST_END_POINT_PEGA_UPDATE_FILE_CONTENT = "/updateAttachment";
+
+
+    public static final String API_FILE_METADATA = "Get file meta data";
+    public static final String API_FILE_CHECKFILEINFO = "Successfully retrieved CheckFileInfo Response";
+    public static final String API_FILE_OCTETSTREAM = "Get file OctetStream";
+    public static final String API_FILE_DOWNLOADED = "Successfully downloaded file";
+
+
+
+
+
 
 }

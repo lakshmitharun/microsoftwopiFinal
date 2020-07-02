@@ -1,8 +1,11 @@
 package com.pega.microsoftwopi.pegaconnector;
 
 import com.pega.microsoftwopi.constants.WOPIConstants;
-import com.pega.microsoftwopi.pojo.CheckFileInfo;
-import com.pega.microsoftwopi.pojo.CheckFileInfoReq;
+import com.pega.microsoftwopi.pojo.prpc.CheckFileInfoReq;
+import com.pega.microsoftwopi.pojo.prpc.FilecontentRes;
+import com.pega.microsoftwopi.pojo.prpc.PutFileContentReq;
+import com.pega.microsoftwopi.pojo.prpc.PutFileContentRes;
+import com.pega.microsoftwopi.pojo.wopi.CheckFileInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,22 +34,55 @@ public class PegaClient {
     public CheckFileInfo getCheckFileInfo(String pegaBaseURL, String authenticationHeader, CheckFileInfoReq checkFileInfoReq) {
 
 
-        WebClient webClient = WebClient.builder()
-                .baseUrl(pegaBaseURL)
-                .clientConnector(clientHttpConnector)
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .filter(logRequest())
-                .filter(logResponse())
-                .build();
+        WebClient webClient = getWebClient(pegaBaseURL);
 
-        ResponseEntity<CheckFileInfo> authorization = webClient.post()
+
+        ResponseEntity<CheckFileInfo> responseEntity = webClient.post()
                 .uri(WOPIConstants.REST_END_POINT_PEGA_CHECK_FILE_INFO)
                 .body(Mono.just(checkFileInfoReq), CheckFileInfoReq.class)
                 .header(WOPIConstants.AUTHORIZATION, authenticationHeader)
                 .exchange()
                 .flatMap(response -> response.toEntity(CheckFileInfo.class)).block();
 
-        return Objects.requireNonNull(authorization).getBody();
+        return Objects.requireNonNull(responseEntity).getBody();
+    }
+
+    public FilecontentRes getFileContent(String pegaBaseURL, String authenticationHeader, CheckFileInfoReq checkFileInfoReq) {
+
+        WebClient webClient = getWebClient(pegaBaseURL);
+
+        ResponseEntity<FilecontentRes> responseEntity = webClient.post()
+                .uri(WOPIConstants.REST_END_POINT_PEGA_FILE_CONTENT)
+                .body(Mono.just(checkFileInfoReq), CheckFileInfoReq.class)
+                .header(WOPIConstants.AUTHORIZATION, authenticationHeader)
+                .exchange()
+                .flatMap(response -> response.toEntity(FilecontentRes.class)).block();
+
+        return Objects.requireNonNull(responseEntity).getBody();
+
+    }
+
+    public PutFileContentRes putUpdatedFileContent(String pegaBaseURL, String authenticationHeader, PutFileContentReq putFileContentReq) {
+        WebClient webClient = getWebClient(pegaBaseURL);
+        ResponseEntity<PutFileContentRes> responseEntity = webClient.post()
+                .uri(WOPIConstants.REST_END_POINT_PEGA_UPDATE_FILE_CONTENT)
+                .body(Mono.just(putFileContentReq), PutFileContentReq.class)
+                .header(WOPIConstants.AUTHORIZATION, authenticationHeader)
+                .exchange()
+                .flatMap(response -> response.toEntity(PutFileContentRes.class)).block();
+
+        return Objects.requireNonNull(responseEntity).getBody();
+
+    }
+
+    private WebClient getWebClient(String pegaBaseURL) {
+        return WebClient.builder()
+                .baseUrl(pegaBaseURL)
+                .clientConnector(clientHttpConnector)
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .filter(logRequest())
+                .filter(logResponse())
+                .build();
     }
 
     private ExchangeFilterFunction logRequest() {

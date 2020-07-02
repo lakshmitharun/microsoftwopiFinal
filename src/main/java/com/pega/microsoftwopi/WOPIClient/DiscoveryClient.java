@@ -1,6 +1,6 @@
 package com.pega.microsoftwopi.WOPIClient;
 
-import com.pega.microsoftwopi.pojo.WOPIDiscovery;
+import com.pega.microsoftwopi.pojo.wopi.WOPIDiscovery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;

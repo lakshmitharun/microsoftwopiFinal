@@ -1,4 +1,4 @@
-package com.pega.microsoftwopi.pojo;
+package com.pega.microsoftwopi.pojo.prpc;
 
 public class CheckFileInfoReq {
 
