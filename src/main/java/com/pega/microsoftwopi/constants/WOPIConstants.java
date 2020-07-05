@@ -31,6 +31,7 @@ public class WOPIConstants {
     public static final String REQUEST_DETAILS = "Request details: {} {}" ;
     public static final String HEADERS_LOG = "Name : {} , value : {}" ;
     public static final String ATTACHMENT_FILENAME = "attachment;filename=" ;
+    public static final String ATTACHMENT_INLINE = "inline;filename=";
 
 
 

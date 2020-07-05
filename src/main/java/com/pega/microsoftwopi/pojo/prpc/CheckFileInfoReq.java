@@ -1,5 +1,6 @@
 package com.pega.microsoftwopi.pojo.prpc;
 
+@SuppressWarnings("SpellCheckingInspection")
 public class CheckFileInfoReq {
 
     private String inskey;

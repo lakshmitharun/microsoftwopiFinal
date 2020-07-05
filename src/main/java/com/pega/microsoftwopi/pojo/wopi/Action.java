@@ -5,6 +5,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import java.io.Serializable;
 
 
+@SuppressWarnings("SpellCheckingInspection")
 public class Action implements Serializable {
 
     @JacksonXmlProperty(localName = "ext", isAttribute = true)
@@ -42,6 +43,7 @@ public class Action implements Serializable {
         return urlsrc;
     }
 
+    @SuppressWarnings("SpellCheckingInspection")
     public void setUrlsrc(String urlsrc) {
         this.urlsrc = urlsrc;
     }

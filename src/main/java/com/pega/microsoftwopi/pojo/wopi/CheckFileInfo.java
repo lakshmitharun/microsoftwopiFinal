@@ -46,6 +46,9 @@ public class CheckFileInfo {
     @JsonProperty("SupportsLocks")
     private boolean supportsLocks = false;
 
+    @JsonProperty("UserFriendlyName")
+    private String userFriendlyName;
+
 
     public String getBaseFileName() {
         return baseFileName;
@@ -143,6 +146,14 @@ public class CheckFileInfo {
         this.breadcrumbBrandName = breadcrumbBrandName;
     }
 
+    public String getUserFriendlyName() {
+        return userFriendlyName;
+    }
+
+    public void setUserFriendlyName(String userFriendlyName) {
+        this.userFriendlyName = userFriendlyName;
+    }
+
     @Override
     public String toString() {
         return "CheckFileInfo{" +
@@ -158,6 +169,7 @@ public class CheckFileInfo {
                 ", userCanWrite=" + userCanWrite +
                 ", supportsUpdate=" + supportsUpdate +
                 ", supportsLocks=" + supportsLocks +
+                ", userFriendlyName='" + userFriendlyName + '\'' +
                 '}';
     }
 }

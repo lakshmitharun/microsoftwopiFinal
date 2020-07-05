@@ -15,13 +15,10 @@ import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.servlet.http.HttpServletResponse;
@@ -40,7 +37,9 @@ public class WOPIService {
     // TODO: 02-07-2020 replace all the below constants by reading them Headers from Microsoft call directly
     private static final String basicAuthHeader = WOPIConstants.BASIC + Base64Utils.encodeToString(("ponnl" + ":" + "rules").getBytes());
     private static final String baseURL = "https://lab5367.lab.pega.com/prweb/api/wopi/1";
-    private static final String insKey = "DATA-WORKATTACH-FILE PEGASOCIAL M-1364!20200702T153209.238 GMT";
+    private static final String insKey = "DATA-WORKATTACH-FILE PEGASOCIAL-DOCUMENT DOC-13!20200704T120311.522 GMT";
+    private static final String data = "DATA";
+
     private final PegaClient pegaClient;
 
     @Autowired
@@ -53,18 +52,20 @@ public class WOPIService {
             @ApiResponse(code = HttpStatus.SC_OK, message = WOPIConstants.API_FILE_CHECKFILEINFO)
     }
     )
-    @GetMapping(WOPIConstants.REST_END_POINT_GET_FILE_INFO)
-    public Mono<CheckFileInfo> getFileInfo(@PathVariable final String name) {
+    @GetMapping(value = WOPIConstants.REST_END_POINT_GET_FILE_INFO, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Mono<CheckFileInfo> getFileInfo(@PathVariable final String name, final HttpServletResponse response) {
         LOGGER.info(WOPIConstants.INFO_WOPISERVICE_GETFILEINFO + name);
         CheckFileInfo checkFileInfo = null;
         try {
             CheckFileInfoReq checkFileInfoReq;
-            if (!name.contains("DATA")) {
+            if (!name.contains(data)) {
                 checkFileInfoReq = new CheckFileInfoReq(insKey);
             } else {
                 checkFileInfoReq = new CheckFileInfoReq(name);
             }
             checkFileInfo = pegaClient.getCheckFileInfo(baseURL, basicAuthHeader, checkFileInfoReq);
+            //response.addHeader(HttpHeaders.CONTENT_DISPOSITION, WOPIConstants.ATTACHMENT_INLINE + new String("sample.txt".getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1));
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             LOGGER.info(WOPIConstants.INFO_WOPISERVICE_GETFILEINFO_CHECKFILEINFO + checkFileInfo.toString());
         } catch (Exception e) {
             LOGGER.error(WOPIConstants.INFO_WOPISERVICE_GETFILEINFO_EXCEPTION + e);
@@ -83,7 +84,7 @@ public class WOPIService {
 
         try {
             CheckFileInfoReq checkFileInfoReq;
-            if (!"DATA".contains(name)) {
+            if (!name.contains(data)) {
                 checkFileInfoReq = new CheckFileInfoReq(insKey);
             } else {
                 checkFileInfoReq = new CheckFileInfoReq(name);
@@ -114,23 +115,15 @@ public class WOPIService {
             @ApiResponse(code = HttpStatus.SC_OK, message = WOPIConstants.API_FILE_UPLOADED)
     }
     )
-    @PostMapping(value = WOPIConstants.REST_END_POINT_PUT_UPDATED_FILE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public boolean postFile(@RequestPart("files") Flux<FilePart> filePartFlux, @PathVariable final String name) {
+    @PostMapping(value = WOPIConstants.REST_END_POINT_PUT_UPDATED_FILE)
+    public boolean postFile(@RequestBody final byte[] content, @PathVariable final String name) {
         boolean isSuccessful = false;
         try {
             LOGGER.info(WOPIConstants.INFO_WOPISERVICE_PUTFILE_NAME + name);
-            Flux<String> stringFlux = filePartFlux.flatMap(filePart ->
-                    filePart.content().map(dataBuffer -> {
-                        byte[] bytes = new byte[dataBuffer.readableByteCount()];
-                        LOGGER.info(WOPIConstants.INFO_WOPISERVICE_PUTFILE_RECEIVEDBYTES + bytes.length);
-                        dataBuffer.read(bytes);
-                        DataBufferUtils.release(dataBuffer);
-                        byte[] encoded = Base64.getEncoder().encode(bytes);
-                        return new String(encoded, StandardCharsets.UTF_8);
-                    }));
-            final String encodedData = stringFlux.blockFirst();
+            byte[] encoded = Base64.getEncoder().encode(content);
+            final String encodedData = new String(encoded, StandardCharsets.UTF_8);
             PutFileContentReq putFileContentReq;
-            if (!"DATA".contains(name)) {
+            if (!name.contains(data)) {
                 putFileContentReq = new PutFileContentReq(insKey, encodedData);
             } else {
                 putFileContentReq = new PutFileContentReq(name, encodedData);
