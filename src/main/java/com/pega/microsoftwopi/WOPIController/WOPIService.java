@@ -24,6 +24,7 @@ import reactor.core.publisher.Mono;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -61,7 +62,7 @@ public class WOPIService {
             if (!name.contains(data)) {
                 checkFileInfoReq = new CheckFileInfoReq(insKey);
             } else {
-                checkFileInfoReq = new CheckFileInfoReq(name);
+                checkFileInfoReq = new CheckFileInfoReq(name.replaceAll("@", " "));
             }
             checkFileInfo = pegaClient.getCheckFileInfo(baseURL, basicAuthHeader, checkFileInfoReq);
             //response.addHeader(HttpHeaders.CONTENT_DISPOSITION, WOPIConstants.ATTACHMENT_INLINE + new String("sample.txt".getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1));
@@ -87,7 +88,7 @@ public class WOPIService {
             if (!name.contains(data)) {
                 checkFileInfoReq = new CheckFileInfoReq(insKey);
             } else {
-                checkFileInfoReq = new CheckFileInfoReq(name);
+                checkFileInfoReq = new CheckFileInfoReq(name.replaceAll("@", " "));
             }
 
             LOGGER.info(WOPIConstants.INFO_WOPISERVICE_FILECONTENT_NAME + name);
@@ -126,7 +127,7 @@ public class WOPIService {
             if (!name.contains(data)) {
                 putFileContentReq = new PutFileContentReq(insKey, encodedData);
             } else {
-                putFileContentReq = new PutFileContentReq(name, encodedData);
+                putFileContentReq = new PutFileContentReq(name.replaceAll("@", " "), encodedData);
             }
             LOGGER.info(WOPIConstants.INFO_WOPISERVICE_PUTFILE_PUTFILECONTENTREQ + putFileContentReq.toString());
             PutFileContentRes putFileContentRes = pegaClient.putUpdatedFileContent(baseURL, basicAuthHeader, putFileContentReq);
@@ -136,5 +137,28 @@ public class WOPIService {
             LOGGER.error(WOPIConstants.EXCEPTION_WOPISERVICE_POSTFILE + e);
         }
         return isSuccessful;
+    }
+
+
+    @ApiOperation(value = WOPIConstants.API_FILE_LOGFILE, response = File.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = HttpStatus.SC_OK, message = WOPIConstants.API_LOG_FILE_DOWNLOADED)
+    }
+    )
+    @GetMapping(WOPIConstants.REST_END_POINT_GET_LOG_FILE)
+    public void getLogFile(final HttpServletResponse response) {
+        try {
+            File logFile = new File(WOPIConstants.LOG_FILE_PATH);
+            InputStream is = new FileInputStream(logFile);
+            response.addHeader(HttpHeaders.CONTENT_DISPOSITION, WOPIConstants.ATTACHMENT_FILENAME + new String(logFile.getName().getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1));
+            response.addHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(is.available()));
+            response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+
+            org.apache.commons.io.IOUtils.copy(is, response.getOutputStream());
+            response.flushBuffer();
+
+        } catch (Exception e) {
+            LOGGER.error(WOPIConstants.EXCEPTION_WOPISERVICE_GETLOGFILE + e);
+        }
     }
 }
